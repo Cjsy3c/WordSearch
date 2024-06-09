@@ -129,8 +129,7 @@ public class LetterMap {
 	}
 
 	private void validateIndex(int index) {
-		validate("Index is out of range for this LetterMap", () -> index >= size);
-		validate("Index is out of range for this LetterMap", () -> index < 0);
+		validate("Index is out of range for this LetterMap", () -> !isValidIndex(index));
 	}
 
 	public char[] getRow(int index) {
@@ -151,7 +150,7 @@ public class LetterMap {
 	}
 
 	public void setCharacter(int x, int y, char c) {
-		map[x][y] = c;
+		map[y][x] = c;
 	}
 	
 	public int getSize() {

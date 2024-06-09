@@ -24,4 +24,17 @@ public class TestLetterMap {
 		System.out.println(wordList);
 	}
 	
+	@Test
+	void testXandY() {
+		LetterMap map = LetterMap.generateRandom(5, Arrays.asList("WORD"));
+		
+		char[] row2 = Arrays.copyOf(map.getRow(2), 5);
+		assertTrue(Arrays.equals(row2, map.getRow(2)));
+		
+		map.setCharacter(3, 2, '2');
+		
+		assertFalse(Arrays.equals(row2, map.getRow(2)));
+		assertEquals('2', map.getRow(2)[3]);
+	}
+	
 }
