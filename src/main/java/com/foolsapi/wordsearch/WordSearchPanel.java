@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -136,11 +134,6 @@ public class WordSearchPanel {
 	private void addComponent(JPanel panel, JComponent comp, GridBagLayout layout, GridBagConstraints constraint) {
 		layout.setConstraints(comp, constraint);
 		panel.add(comp);
-	}
-	
-	private void addComponent(JScrollPane scrollPane, JComponent comp, GridBagLayout layout, GridBagConstraints constraint) {
-		layout.setConstraints(comp, constraint);
-		scrollPane.add(comp);
 	}
 	
 	private Font loadFont(boolean useAslFont) {

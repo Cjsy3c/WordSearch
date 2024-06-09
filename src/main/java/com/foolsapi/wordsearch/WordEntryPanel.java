@@ -16,18 +16,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 public class WordEntryPanel {
 	
+	private JFrame frame;
 	private JTextArea wordListField;
 	private JTextField sizeField;
 	private JCheckBox signLanguageCheckbox;
 	private JButton generateButton;
 
 	public WordEntryPanel() {
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		GridBagLayout bagLayout = new GridBagLayout();
@@ -45,13 +44,11 @@ public class WordEntryPanel {
 		
 		constraints.gridy = 2;
 		addComponent(frame, buildButtonPanel(), bagLayout, constraints);
-		
-		
-		// kick of UI load
-		SwingUtilities.invokeLater(() -> {
-			frame.pack();
-			frame.setVisible(true);
-		});
+	}
+	
+	public void show() {
+		frame.pack();
+		frame.setVisible(true);
 	}
 	
 	private JPanel buildInfoPanel()  {
@@ -135,8 +132,8 @@ public class WordEntryPanel {
 				boolean aslFlag = signLanguageCheckbox.isSelected();
 				
 				String wordCsv = wordListField.getText();
-				wordCsv = wordCsv.replace('|', ',').replace('\t', ',').toUpperCase();
-				wordCsv = wordCsv.replaceAll("[^A-Z,]", "");
+				wordCsv = wordCsv.replace('|', ',').replace('\t', ',');
+				wordCsv = wordCsv.replaceAll("[^A-Za-z,]", "");
 				List<String> wordList = Arrays.asList(wordCsv.split(","));
 				
 				new LetterMapWorker(aslFlag, size, wordList, () -> generateButton.setEnabled(true)).execute();
@@ -158,10 +155,6 @@ public class WordEntryPanel {
 	private void addComponent(JFrame frame, JComponent comp, GridBagLayout layout, GridBagConstraints constraint) {
 		layout.setConstraints(comp, constraint);
 		frame.add(comp);
-	}
-	
-	private void kickOffSearchUI(LetterMap letterMap, List<String> wordList, boolean aslFontFlag) {
-		new WordSearchPanel(letterMap, wordList, aslFontFlag);
 	}
 
 }

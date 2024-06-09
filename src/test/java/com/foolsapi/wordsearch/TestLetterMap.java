@@ -2,6 +2,10 @@ package com.foolsapi.wordsearch;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class TestLetterMap {
@@ -12,5 +16,12 @@ public class TestLetterMap {
 			System.out.println((char) (i + 65));
 		}
 	}
-
+	
+	@Test
+	void testWordListOrder() {
+		List<String> wordList = Arrays.asList("test", "LONGWORD", "short");
+		wordList.sort(Comparator.comparing(String::length).reversed());
+		System.out.println(wordList);
+	}
+	
 }

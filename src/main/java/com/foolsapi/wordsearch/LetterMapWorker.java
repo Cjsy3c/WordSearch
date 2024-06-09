@@ -2,8 +2,6 @@ package com.foolsapi.wordsearch;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import javax.swing.SwingWorker;
 

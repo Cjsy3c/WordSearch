@@ -1,6 +1,7 @@
 package com.foolsapi.wordsearch;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,7 +14,13 @@ public class LetterMap {
 	private final List<WordIndex> wordListLocations = new ArrayList<>();
 
 	public static LetterMap generateRandom(int size, List<String> wordList) {
-		return new LetterMap(size, wordList);
+		
+		try {
+			return new LetterMap(size, wordList);
+		} catch (LetterMapGenerationException e) {
+			// try twice in case it was just bad placement on the earlier version:
+			return new LetterMap(size, wordList);
+		}
 	}
 
 	public static LetterMap load() {
@@ -43,6 +50,9 @@ public class LetterMap {
 		
 		this.size = size;
 		this.map = new char[size][size];
+		
+		// Best chance of success if we do the long words first
+		wordList.sort(Comparator.comparing(String::length).reversed());
 
 		// select random position and direction
 		for(String word : wordList) {
@@ -53,7 +63,7 @@ public class LetterMap {
 				
 				// make sure we aren't spinning too many cycles on this:
 				if(counter > 1000) {
-					throw new RuntimeException("Combination where all words are avialble cannot be found. Please try again.");
+					throw new LetterMapGenerationException("Combination where all words are available cannot be found. Please try again.");
 				}
 				
 				int xStart = randomInt(size);
@@ -119,9 +129,8 @@ public class LetterMap {
 	}
 
 	private void validateIndex(int index) {
-		if (index >= size) {
-			throw new IllegalArgumentException("Index is out of range for this LetterMap");
-		}
+		validate("Index is out of range for this LetterMap", () -> index >= size);
+		validate("Index is out of range for this LetterMap", () -> index < 0);
 	}
 
 	public char[] getRow(int index) {
