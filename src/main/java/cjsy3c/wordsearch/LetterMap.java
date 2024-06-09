@@ -1,4 +1,4 @@
-package com.foolsapi.wordsearch;
+package cjsy3c.wordsearch;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,6 +14,13 @@ public class LetterMap {
 	private final List<WordIndex> wordListLocations = new ArrayList<>();
 
 	public static LetterMap generateRandom(int size, List<String> wordList) {
+		validate("Size must be positive", () -> size < 1);
+		validate("Size must be reasonable", () -> size > 1000);
+		validate("wordList must have entries", () -> wordList.size() < 1);
+		validate("word length can't exceed size", () -> wordList.stream()
+				.filter(w -> w.length() > size)
+				.findAny()
+				.isPresent());
 		
 		try {
 			return new LetterMap(size, wordList);
@@ -33,21 +40,13 @@ public class LetterMap {
 	 * @param failMessage
 	 * @param validationFuntion  
 	 */
-	private void validate(String failMessage, Supplier<Boolean> validationFuntion) {
+	private static void validate(String failMessage, Supplier<Boolean> validationFuntion) {
 		if(validationFuntion.get()) {
 			throw new IllegalArgumentException(failMessage);
 		}
 	}
 	
 	private LetterMap(int size, List<String> wordList) {
-		validate("Size must be positive", () -> size < 1);
-		validate("Size must be reasonable", () -> size > 1000);
-		validate("wordList must have entries", () -> wordList.size() < 1);
-		validate("word length can't exceed size", () -> wordList.stream()
-				.filter(w -> w.length() > size)
-				.findAny()
-				.isPresent());
-		
 		this.size = size;
 		this.map = new char[size][size];
 		

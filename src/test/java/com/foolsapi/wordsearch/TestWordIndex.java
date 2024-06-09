@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import cjsy3c.wordsearch.LetterMap;
+import cjsy3c.wordsearch.WordIndex;
+
 public class TestWordIndex {
 	
 	@Test

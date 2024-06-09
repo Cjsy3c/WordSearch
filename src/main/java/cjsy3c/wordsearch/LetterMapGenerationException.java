@@ -1,4 +1,4 @@
-package com.foolsapi.wordsearch;
+package cjsy3c.wordsearch;
 
 public class LetterMapGenerationException extends RuntimeException {
 

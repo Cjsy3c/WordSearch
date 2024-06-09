@@ -1,4 +1,4 @@
-package com.foolsapi.wordsearch;
+package cjsy3c.wordsearch;
 
 import java.util.concurrent.ThreadLocalRandom;
 
