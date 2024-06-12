@@ -22,12 +22,19 @@ public class LetterMap {
 				.findAny()
 				.isPresent());
 		
+		LetterMap result = null;
 		try {
-			return new LetterMap(size, wordList);
+			result = new LetterMap(size, wordList);
 		} catch (LetterMapGenerationException e) {
 			// try twice in case it was just bad placement on the earlier version:
-			return new LetterMap(size, wordList);
+			result = new LetterMap(size, wordList);
 		}
+		
+		if (result != null) {
+			System.out.println(result.toString());
+		}
+		
+		return result;
 	}
 
 	public static LetterMap load() {
@@ -74,10 +81,6 @@ public class LetterMap {
 				boolean isValid = true;
 				List<int[]> positionList = new ArrayList<>();
 				for(char c : word.toCharArray()) {
-					positionList.add(new int[] {x, y});
-					int[] pos = dir.nextStep(x, y);
-					x = pos[0];
-					y = pos[1];
 					
 					Optional<Character> optChar = WordIndex.checkConflict(wordListLocations, x, y);
 					if(optChar.isPresent() && !optChar.get().equals(c)) {
@@ -87,6 +90,11 @@ public class LetterMap {
 						isValid = false;
 						break;
 					}
+					
+					positionList.add(new int[] {x, y});
+					int[] pos = dir.nextStep(x, y);
+					x = pos[0];
+					y = pos[1];
 				}
 				
 				if(isValid) {

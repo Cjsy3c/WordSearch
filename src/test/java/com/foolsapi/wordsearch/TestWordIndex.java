@@ -70,10 +70,24 @@ public class TestWordIndex {
 		newWord.setCharacters(letterMap);
 		
 		assertNotEquals(row1, letterMap.getRow(1));
+		assertEquals('W', letterMap.getColumn(1)[1]);
+		assertEquals('O', letterMap.getColumn(1)[2]);
+		assertEquals('R', letterMap.getColumn(1)[3]);
+		assertEquals('D', letterMap.getColumn(1)[4]);
+	}
+	
+	@Test
+	void testSetLetterMap2() {
+		LetterMap letterMap = LetterMap.generateRandom(10, Arrays.asList("TEST"));
+	
+		char[] row1 = Arrays.copyOf(letterMap.getRow(1), 10);
+		WordIndex newWord = new WordIndex("WORD", Arrays.asList(new int[] {1, 1}, new int[] {2, 1}, new int[] {3, 1}, new int[] {4, 1}));
+		newWord.setCharacters(letterMap);
+		
+		assertNotEquals(row1, letterMap.getRow(1));
 		assertEquals('W', letterMap.getRow(1)[1]);
 		assertEquals('O', letterMap.getRow(1)[2]);
 		assertEquals('R', letterMap.getRow(1)[3]);
 		assertEquals('D', letterMap.getRow(1)[4]);
 	}
-	
 }

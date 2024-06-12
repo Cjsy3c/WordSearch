@@ -105,6 +105,7 @@ public class WordEntryPanel {
 		constraints.weighty = .8;
 		constraints.ipadx = 20;
 		wordListField = new JTextArea("Word, Test, Surprise", 4, 30);
+		wordListField.setLineWrap(true);
 		addComponent(selectionPanel, wordListField, bagLayout, constraints);
 		
 		selectionPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
@@ -132,7 +133,7 @@ public class WordEntryPanel {
 				boolean aslFlag = signLanguageCheckbox.isSelected();
 				
 				String wordCsv = wordListField.getText();
-				wordCsv = wordCsv.replace('|', ',').replace('\t', ',');
+				wordCsv = wordCsv.replace('|', ',').replace('\t', ',').replace('\n', ',');
 				wordCsv = wordCsv.replaceAll("[^A-Za-z,]", "");
 				List<String> wordList = Arrays.asList(wordCsv.split(","));
 				
