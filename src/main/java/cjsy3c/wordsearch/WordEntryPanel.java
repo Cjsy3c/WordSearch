@@ -1,5 +1,6 @@
 package cjsy3c.wordsearch;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -29,21 +30,20 @@ public class WordEntryPanel {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
-		frame.setLayout(bagLayout);
+		frame.setLayout(new GridBagLayout());
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		
-		addComponent(frame, buildInfoPanel(), bagLayout, constraints);
+		addComponent(frame, buildInfoPanel(), constraints);
 		
 		constraints.gridy = 1;
-		addComponent(frame, buildSelectionPanel(), bagLayout, constraints);
+		addComponent(frame, buildSelectionPanel(), constraints);
 		
 		constraints.gridy = 2;
-		addComponent(frame, buildButtonPanel(), bagLayout, constraints);
+		addComponent(frame, buildButtonPanel(), constraints);
 	}
 	
 	public void show() {
@@ -53,52 +53,52 @@ public class WordEntryPanel {
 	
 	private JPanel buildInfoPanel()  {
 		JPanel infoPanel = new JPanel();
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
-		infoPanel.setLayout(bagLayout);
+		infoPanel.setLayout(new GridBagLayout());
 		
 		JLabel title = new JLabel("Word Search Creator");
-		addComponent(infoPanel, title, bagLayout, constraints);
+		addComponent(infoPanel, title, constraints);
 		
 		return infoPanel;
 	}
 	
 	private JPanel buildSelectionPanel() {
 		JPanel selectionPanel = new JPanel();
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
-		selectionPanel.setLayout(bagLayout);
+		selectionPanel.setLayout(new GridBagLayout());
 		
 		constraints.weightx = .1;
 		constraints.weighty = .1;
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+		constraints.ipadx = 10;
 		constraints.anchor = GridBagConstraints.WEST;
 		JLabel sizeLabel = new JLabel("Size:");
 		sizeLabel.setToolTipText("Number of characters to generate for width and height");
-		addComponent(selectionPanel, sizeLabel, bagLayout, constraints);
+		addComponent(selectionPanel, sizeLabel, constraints);
 		
 		constraints.gridx = 1;
-		sizeField = new JTextField("10", 3);
+		sizeField = new JTextField("14");
 		sizeField.setEditable(true);
-		addComponent(selectionPanel, sizeField, bagLayout, constraints);
+		sizeField.setMinimumSize(new Dimension(22, 20));
+		addComponent(selectionPanel, sizeField, constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		JLabel signLanguageLabel = new JLabel("ASL:");
 		signLanguageLabel.setToolTipText("Choose to generate this with a font used for American Sign Language");
-		addComponent(selectionPanel, signLanguageLabel, bagLayout, constraints);
+		addComponent(selectionPanel, signLanguageLabel, constraints);
 		
 		constraints.gridx = 1;
 		signLanguageCheckbox = new JCheckBox();
-		addComponent(selectionPanel, signLanguageCheckbox, bagLayout, constraints);
+		addComponent(selectionPanel, signLanguageCheckbox, constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.ipadx = 20;
 		JLabel wordLabel = new JLabel("Word List:");
 		wordLabel.setToolTipText("Enter the words used with commas separating them");
-		addComponent(selectionPanel, wordLabel, bagLayout, constraints);
+		addComponent(selectionPanel, wordLabel, constraints);
 		
 		constraints.gridx = 1;
 		constraints.weightx = .8;
@@ -106,7 +106,7 @@ public class WordEntryPanel {
 		constraints.ipadx = 20;
 		wordListField = new JTextArea("Word, Test, Surprise", 4, 30);
 		wordListField.setLineWrap(true);
-		addComponent(selectionPanel, wordListField, bagLayout, constraints);
+		addComponent(selectionPanel, wordListField, constraints);
 		
 		selectionPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 		
@@ -115,14 +115,13 @@ public class WordEntryPanel {
 	
 	private JPanel buildButtonPanel()  {
 		JPanel buttonPanel = new JPanel();
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
-		buttonPanel.setLayout(bagLayout);
+		buttonPanel.setLayout(new GridBagLayout());
 		
 		constraints.gridx = 1;
 		constraints.anchor = GridBagConstraints.CENTER;
 		generateButton = new JButton("Generate");
-		addComponent(buttonPanel, generateButton, bagLayout, constraints);
+		addComponent(buttonPanel, generateButton, constraints);
 		
 		generateButton.addActionListener(new ActionListener() {
 			
@@ -148,14 +147,14 @@ public class WordEntryPanel {
 	}
 	
 	
-	private void addComponent(JPanel panel, JComponent comp, GridBagLayout layout, GridBagConstraints constraint) {
-		layout.setConstraints(comp, constraint);
-		panel.add(comp);
+	private void addComponent(JPanel panel, JComponent comp, GridBagConstraints constraint) {
+		panel.add(comp, constraint);
 	}
 	
-	private void addComponent(JFrame frame, JComponent comp, GridBagLayout layout, GridBagConstraints constraint) {
-		layout.setConstraints(comp, constraint);
-		frame.add(comp);
+	private void addComponent(JFrame frame, JComponent comp, GridBagConstraints constraint) {
+		frame.add(comp, constraint);
 	}
+	
+//	private void addComponent(Container container, Component comp, )
 
 }

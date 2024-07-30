@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -31,21 +32,20 @@ public class WordSearchPanel {
 		JFrame frame = new JFrame();
 		notSelected = frame.getBackground();
 
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
 		
-		JPanel panel = new JPanel(bagLayout);
+		JPanel panel = new JPanel(new GridBagLayout());
 		
 		// display word list
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		addComponent(panel, buildWordListPanel(wordList), bagLayout, constraints);
+		addComponent(panel, buildWordListPanel(wordList), constraints);
 
 		// show characters
 		constraints.gridy = 1;
 		constraints.fill = GridBagConstraints.BOTH;
-		addComponent(panel, buildGamePanel(letterMap), bagLayout, constraints);
+		addComponent(panel, buildGamePanel(letterMap), constraints);
 
 		JScrollPane scrollPane = new JScrollPane(panel);
 		frame.add(scrollPane);
@@ -58,29 +58,27 @@ public class WordSearchPanel {
 	
 	private JPanel buildWordListPanel(List<String> wordList) {
 		JPanel wordPanel = new JPanel();
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
-		wordPanel.setLayout(bagLayout);
+		wordPanel.setLayout(new GridBagLayout());
 		
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		JLabel instructions = new JLabel("The words that you are looking for are: ");
-		addComponent(wordPanel, instructions, bagLayout, constraints);
+		addComponent(wordPanel, instructions, constraints);
 		
 		constraints.gridy = 1;
 		JLabel words = new JLabel(String.join(", ", wordList));
-		addComponent(wordPanel, words, bagLayout, constraints);
+		addComponent(wordPanel, words, constraints);
 		
 		return wordPanel;
 	}
 
 	private JPanel buildGamePanel(LetterMap letterMap) {
 		JPanel gamePanel = new JPanel();
-		GridBagLayout bagLayout = new GridBagLayout();
 		GridBagConstraints constraints = new GridBagConstraints();
 
-		gamePanel.setLayout(bagLayout);
+		gamePanel.setLayout(new GridBagLayout());
 		
 		for(int i = 0; i < letterMap.getSize(); i++) {
 			constraints.gridy = i;
@@ -91,26 +89,11 @@ public class WordSearchPanel {
 				text.setHorizontalAlignment(JTextField.CENTER);
 				text.setFont(font);
 				text.setEditable(false);
-				text.addMouseListener(new MouseListener() {
+				text.addMouseListener(new MouseAdapter() {
 					
 					@Override
 					public void mouseReleased(MouseEvent e) {
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
+						super.mouseReleased(e);
 						Component c = e.getComponent();
 						if(c.getBackground().equals(selected)) {
 							c.setBackground(notSelected);
@@ -122,7 +105,7 @@ public class WordSearchPanel {
 
 				constraints.gridx++;
 				
-				addComponent(gamePanel, text, bagLayout, constraints);
+				addComponent(gamePanel, text, constraints);
 			}
 		}
 		
@@ -131,9 +114,8 @@ public class WordSearchPanel {
 		return gamePanel;
 	}
 	
-	private void addComponent(JPanel panel, JComponent comp, GridBagLayout layout, GridBagConstraints constraint) {
-		layout.setConstraints(comp, constraint);
-		panel.add(comp);
+	private void addComponent(JPanel panel, JComponent comp, GridBagConstraints constraint) {
+		panel.add(comp, constraint);
 	}
 	
 	private Font loadFont(boolean useAslFont) {
